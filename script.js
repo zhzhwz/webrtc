@@ -111,9 +111,5 @@ function startWebRTC(isOfferer) {
 }
 
 function localDescCreated(desc) {
-  pc.setLocalDescription(
-    desc,
-    () => sendMessage({'sdp': pc.localDescription}),
-    onError
-  );
+  pc.setLocalDescription(desc).then(() => sendMessage({'sdp': pc.localDescription})).catch(onError);
 }
