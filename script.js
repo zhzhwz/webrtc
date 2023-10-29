@@ -17,7 +17,7 @@ let room;
 let pc;
 
 
-function onSuccess() {};
+function onSuccess() { };
 function onError(error) {
   console.error(error);
 };
@@ -57,7 +57,7 @@ function startWebRTC(isOfferer) {
   // message to the other peer through the signaling server
   pc.onicecandidate = event => {
     if (event.candidate) {
-      sendMessage({'candidate': event.candidate, 'sdp': pc.localDescription});
+      sendMessage({ 'candidate': event.candidate });
     }
   };
 
@@ -95,12 +95,14 @@ function startWebRTC(isOfferer) {
 
     if (message.sdp) {
       // This is called after receiving an offer or answer from another peer
-      pc.setRemoteDescription(new RTCSessionDescription(message.sdp), () => {
-        // When receiving an offer lets answer it
-        if (pc.remoteDescription.type === 'offer') {
-          pc.createAnswer().then(localDescCreated).catch(onError);
+      pc.setRemoteDescription(new RTCSessionDescription(message.sdp)).then(
+        () => {
+          // When receiving an offer lets answer it
+          if (pc.remoteDescription.type === 'offer') {
+            pc.createAnswer().then(localDescCreated).catch(onError);
+          }
         }
-      }, onError);
+      ).catch(onError);
     } else if (message.candidate) {
       // Add the new ICE candidate to our connections remote description
       pc.addIceCandidate(
@@ -111,5 +113,5 @@ function startWebRTC(isOfferer) {
 }
 
 function localDescCreated(desc) {
-  pc.setLocalDescription(desc).then(() => sendMessage({'sdp': pc.localDescription})).catch(onError);
+  pc.setLocalDescription(desc).then(() => sendMessage({ 'sdp': pc.localDescription })).catch(onError);
 }
