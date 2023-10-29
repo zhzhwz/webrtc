@@ -56,7 +56,7 @@ function startWebRTC(isOfferer) {
   // 'onicecandidate' notifies us whenever an ICE agent needs to deliver a
   // message to the other peer through the signaling server
   pc.onicecandidate = event => {
-    useTimeout(()=>{
+    setTimeout(()=>{
       if (event.candidate) {
         sendMessage({'candidate': event.candidate});
       }
