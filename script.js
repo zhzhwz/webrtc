@@ -5,12 +5,12 @@ if (!location.hash) {
 const roomHash = location.hash.substring(1);
 
 // TODO: Replace with your own channel ID
-const drone = new ScaleDrone('yiS12Ts5RdNhebyM');
+const drone = new ScaleDrone('dkA2lUmxiRNkqSi7');
 // Room name needs to be prefixed with 'observable-'
 const roomName = 'observable-' + roomHash;
 const configuration = {
   iceServers: [{
-    urls: 'stun:stun.l.google.com:19302'
+    urls: 'stun:stun.schlund.de:3478'
   }]
 };
 let room;
