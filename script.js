@@ -56,11 +56,9 @@ function startWebRTC(isOfferer) {
   // 'onicecandidate' notifies us whenever an ICE agent needs to deliver a
   // message to the other peer through the signaling server
   pc.onicecandidate = event => {
-    setTimeout(()=>{
-      if (event.candidate) {
-        sendMessage({'candidate': event.candidate});
-      }
-    }, 0)
+    if (event.candidate) {
+      sendMessage({'candidate': event.candidate, 'sdp': pc.localDescription});
+    }
   };
 
   // If user is offerer let the 'negotiationneeded' event create the offer
@@ -113,5 +111,5 @@ function startWebRTC(isOfferer) {
 }
 
 function localDescCreated(desc) {
-  pc.setLocalDescription(desc).then(() => sendMessage({'sdp': desc})).catch(onError);
+  pc.setLocalDescription(desc).then(() => sendMessage({'sdp': pc.localDescription})).catch(onError);
 }
